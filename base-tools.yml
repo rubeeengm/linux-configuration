@@ -1,0 +1,13 @@
+---
+  - name: base-tools
+    hosts: linux
+    become: yes
+    tasks:
+      - name: Intall base tools
+        apt:
+          name:
+            - curl
+            - nmap
+            - build-essential
+          state: present
+           
