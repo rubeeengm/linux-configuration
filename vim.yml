@@ -8,6 +8,7 @@
   vars:
     account: 'server'
     home: "{{out.stdout}}"
+
   tasks:
     - name: Install Vim
       apt:
@@ -19,7 +20,6 @@
       register: out
 
     - name: Cleaning old files
-      # shell: "rm -rf {{home}}/.vim/ {{home}}/.vimrc"
       file:
         path: 
           - "{{home}}/.vim/"

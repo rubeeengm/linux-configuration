@@ -1,13 +1,40 @@
 ---
   - name: base-tools
     hosts: linux
-    become: yes
+    become: true
+    become_method: sudo
+    become_user: "{{account}}"
+
+    vars:
+        account: 'server'
+
     tasks:
       - name: Intall base tools
         apt:
-          name:
-            - curl
-            - nmap
-            - build-essential
-          state: present
-           
+            name:
+                - curl
+                - nmap
+                - build-essential
+                - xfce4-sensors-plugin
+                - vlc
+                - gparted
+                - maven
+                - kolourpaint
+            state: present
+
+      - name: Install blueetooth
+        apt:
+            name:
+                - bluez
+                - blueman
+            state: present
+            
+      - name: Enable bluetooth service
+        service:
+            name: bluetooth 
+            enabled: yes
+
+      - name: Starting Blueetoth service
+        service:
+            name: bluetooth
+            state: started
