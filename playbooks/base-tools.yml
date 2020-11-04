@@ -20,6 +20,7 @@
                 - gparted
                 - maven
                 - kolourpaint
+                - tree
             state: present
 
       - name: Install blueetooth
