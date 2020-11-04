@@ -3,10 +3,7 @@
     hosts: linux
     become: true
     become_method: sudo
-    become_user: "{{account}}"
-
-    vars:
-        account: 'server'
+    become_user: "{{ account }}"
 
     tasks:
       - name: Intall base tools

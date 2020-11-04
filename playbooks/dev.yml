@@ -3,10 +3,7 @@
   hosts: linux
   become: true
   become_method: sudo
-  become_user: "{{account}}"
-
-  vars:
-    account: 'server'
+  become_user: "{{ account }}"
 
   tasks:
     - name: Install git
@@ -14,28 +11,15 @@
         name: git
         state: present
 
-    - name: Config for git
-      shell: "git config --global user.email"
-      register: out
+    - name: Config email for git
+      git_config:
+          name: user.email
+          scope: global
+          value: "{{ gitemail }}"
 
-    - name: Cleaning old files
-      file:
-        path: 
-          - "{{home}}/.vim/"
-          - "{{home}}/.vimrc"
-        state: absent
+    - name: Config user for git
+      git_config:
+          name: user.name
+          scope: global
+          value: "{{ gituser }}"
 
-    - name: Creatig directory for save vim-plug
-      file:
-        path: "{{home}}/.vim/autoload/"
-        state: directory
-
-    - name: Get vim-plug from repo and copy to directory
-      get_url:
-        url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-        dest: "{{home}}/.vim/autoload/"
-
-    - name: Copy vimrc configuration to home directory of the user
-      copy:
-        src: "./dotfiles/.vimrc"
-        dest: "{{home}}"

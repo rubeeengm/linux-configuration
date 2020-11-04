@@ -6,7 +6,6 @@
   become_user: "{{account}}"
 
   vars:
-    account: 'server'
     home: "{{out.stdout}}"
 
   tasks:
@@ -38,5 +37,5 @@
 
     - name: Copy vimrc configuration to home directory of the user
       copy:
-        src: "./dotfiles/.vimrc"
+        src: "../dotfiles/.vimrc"
         dest: "{{home}}"
