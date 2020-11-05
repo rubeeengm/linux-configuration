@@ -8,7 +8,7 @@
     tasks:
       - name: Intall base tools
         apt:
-            name:
+            pkg:
                 - curl
                 - nmap
                 - build-essential
@@ -19,4 +19,5 @@
                 - maven
                 - kolourpaint
                 - tree
+                - openssl
             state: present

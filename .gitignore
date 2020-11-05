@@ -1,2 +1,4 @@
 host_vars/*
+dotfiles/id_rsa
+dotfiles/id_rsa.pub
 !host_vars/localhost.env

@@ -1,0 +1,49 @@
+---
+  - name: ssh configuration
+    hosts: linux
+    become: true
+    become_method: sudo
+    become_user: "{{account}}"
+
+    vars:
+        home: "{{out.stdout}}"
+
+    tasks:
+      - name: Intall ssh
+        apt:
+            name: openssh-server
+            state: present
+
+      - name: Intall ssl
+        apt:
+            name: openssl
+            state: present
+
+      - name: Saving home in variable
+        shell: "echo $HOME"
+        register: out
+
+      - name: Cleaning old files
+        file:
+            path: "{{home}}/.ssh/"
+            state: absent
+
+      - name: Creating directory for save key
+        file:
+            path: "{{home}}/.ssh/"
+            state: directory
+
+      - name: Copy private key to ssh directory
+        copy:
+            src: "../dotfiles/id_rsa"
+            dest: "{{home}}/.ssh/"
+            mode: '0600'
+
+      - name: Copy public key to ssh directory
+        copy:
+            src: "../dotfiles/id_rsa.pub"
+            dest: "{{home}}/.ssh/"
+            mode: '0600'
+
+      - name: Add private key to ssh-agent
+        shell: "ssh-add {{home}}/.ssh/id_rsa"
