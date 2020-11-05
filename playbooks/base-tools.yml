@@ -3,7 +3,7 @@
     hosts: linux
     become: true
     become_method: sudo
-    become_user: "{{ account }}"
+    become_user: "{{account}}"
 
     tasks:
       - name: Intall base tools
@@ -13,26 +13,10 @@
                 - nmap
                 - build-essential
                 - xfce4-sensors-plugin
+                - xfce4-terminal
                 - vlc
                 - gparted
                 - maven
                 - kolourpaint
                 - tree
             state: present
-
-      - name: Install blueetooth
-        apt:
-            name:
-                - bluez
-                - blueman
-            state: present
-            
-      - name: Enable bluetooth service
-        service:
-            name: bluetooth 
-            enabled: yes
-
-      - name: Starting Blueetoth service
-        service:
-            name: bluetooth
-            state: started

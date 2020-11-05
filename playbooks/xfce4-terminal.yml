@@ -1,0 +1,34 @@
+---
+  - name: xfce4-terminal configuration
+    hosts: linux
+    become: true
+    become_method: sudo
+    become_user: "{{account}}"
+
+    vars:
+        home: "{{out.stdout}}"
+
+    tasks:
+      - name: Intall xfce4-terminal
+        apt:
+            name: xfce4-terminal
+            state: present
+
+      - name: Saving home in variable
+        shell: "echo $HOME"
+        register: out
+
+      - name: Cleaning old files
+        file:
+            path: "{{home}}/.config/xfce4/terminal/"
+            state: absent
+
+      - name: Creating directory for save xfce4-terminal config
+        file:
+            path: "{{home}}/.config/xfce4/terminal/"
+            state: directory
+
+      - name: Copy config for xfce4-terminal
+        copy:
+            src: "../dotfiles/terminalrc"
+            dest: "{{home}}/.config/xfce4/terminal/terminalrc"

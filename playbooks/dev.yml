@@ -3,7 +3,7 @@
   hosts: linux
   become: true
   become_method: sudo
-  become_user: "{{ account }}"
+  become_user: "{{account}}"
 
   tasks:
     - name: Install git
@@ -15,11 +15,11 @@
       git_config:
           name: user.email
           scope: global
-          value: "{{ gitemail }}"
+          value: "{{gitemail}}"
 
     - name: Config user for git
       git_config:
           name: user.name
           scope: global
-          value: "{{ gituser }}"
+          value: "{{gituser}}"
 

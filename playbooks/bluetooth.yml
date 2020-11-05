@@ -1,0 +1,27 @@
+---
+  - name: bluetooth-configuration
+    hosts: linux
+    become: true
+    become_method: sudo
+    become_user: "{{account}}"
+
+    vars:
+        home: "{{out.stdout}}"
+
+    tasks:
+      - name: Install blueetooth
+        apt:
+            name:
+                - bluez
+                - blueman
+            state: present
+            
+      - name: Enable bluetooth service
+        service:
+            name: bluetooth 
+            enabled: yes
+
+      - name: Starting Blueetoth service
+        service:
+            name: bluetooth
+            state: started
