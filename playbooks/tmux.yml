@@ -1,0 +1,42 @@
+---
+- name: tmux-install
+  hosts: linux
+  become: yes
+
+  vars:
+    home: "{{out.stdout}}"
+
+  tasks:
+    - name: Install tmux
+      apt:
+          name: tmux
+          state: present
+
+    - name: Saving home directory
+      shell: "echo $HOME"
+      register: out
+      become_method: sudo
+      become_user: "{{account}}"
+
+    - name: Cleaning old files
+      file:
+          path: "{{home}}/Downloads/tmux_setup/"
+          state: absent
+      become_method: sudo
+      become_user: "{{account}}"
+
+    - name: Get tmux configuration from repo and copy to download directory
+      git:
+          repo: https://github.com/lcavanzo/tmux_setup.git
+          dest: "{{home}}/Downloads/tmux_setup/"
+          clone: yes
+      become_method: sudo
+      become_user: "{{account}}"
+
+    - name: Run tmux-configuration script
+      shell: sh setup_tmux.sh
+      args:
+          chdir: "{{home}}/Downloads/tmux_setup/"
+      become_method: sudo
+      become_user: "{{account}}"
+
