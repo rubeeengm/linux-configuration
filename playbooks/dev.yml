@@ -5,21 +5,41 @@
   become_method: sudo
   become_user: "{{account}}"
 
+  vars:
+      home: "{{out.stdout}}"
+
   tasks:
-    - name: Install git
-      apt:
-        name: git
-        state: present
+      - name: Install git
+        apt:
+            name: git
+            state: present
 
-    - name: Config email for git
-      git_config:
-          name: user.email
-          scope: global
-          value: "{{gitemail}}"
+      - name: Config email for git
+        git_config:
+            name: user.email
+            scope: global
+            value: "{{gitemail}}"
 
-    - name: Config user for git
-      git_config:
-          name: user.name
-          scope: global
-          value: "{{gituser}}"
+      - name: Config user for git
+        git_config:
+            name: user.name
+            scope: global
+            value: "{{gituser}}"
 
+      - name: Installing database client
+        apt:
+            name: mycli
+
+      - name: Saving home in variable
+        shell: "echo $HOME"
+        register: out
+
+      - name: Backup of mycli configuration
+        copy:
+            src: "{{home}}/.myclirc"
+            dest: "{{home}}/.myclirc.bak"
+
+      - name: Move files configuration
+        copy:
+            src: "../dotfiles/.myclirc"
+            dest: "{{home}}/.myclirc"

@@ -1,23 +1,30 @@
 ---
   - name: base-tools
     hosts: linux
-    become: true
-    become_method: sudo
-    become_user: "{{account}}"
+    become: yes
 
     tasks:
-      - name: Intall base tools
-        apt:
-            pkg:
-                - curl
-                - nmap
-                - build-essential
-                - xfce4-sensors-plugin
-                - xfce4-terminal
-                - vlc
-                - gparted
-                - maven
-                - kolourpaint
-                - tree
-                - openssl
-            state: present
+        - name: update packages
+          apt: 
+            update_cache: yes
+
+        - name: Intall base tools
+          apt:
+              name:
+                  - curl
+                  - nmap
+                  - build-essential
+                  - xfce4-sensors-plugin
+                  - xfce4-terminal
+                  - vlc
+                  - gparted
+                  - maven
+                  - kolourpaint
+                  - tree
+                  - openssl
+                  - rar
+                  - unrar
+                  - zip
+                  - unzip
+                  - javacc
+              state: present
