@@ -1,0 +1,20 @@
+---
+- name: node-install
+  hosts: linux
+  become: yes
+
+  tasks:
+      - name: Get nodejs repositories
+        shell: "curl -sL https://deb.nodesource.com/setup_15.x | bash -"
+      
+      - name: update packages
+        apt: 
+            update_cache: yes
+      
+      - name: Install nodejs
+        apt: 
+            name: nodejs
+            state: present
+
+      - name: Install vuejs
+        shell: "npm install -g @vue/cli"
