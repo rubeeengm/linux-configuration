@@ -1,0 +1,38 @@
+---
+  - name: nginx-install
+    hosts: linux
+    become: true
+
+    tasks:
+        - name: Update packages
+          apt: 
+            update_cache: yes
+
+        - name: Intall nginx server
+          apt:
+              name: nginx
+              state: present
+
+        - name: Install php
+          apt:
+              name:
+                  - php
+                  - php-fpm
+                  - php-mysql
+              state: present
+
+        - name: backup of nginx configuration
+          copy:
+              src: "/etc/nginx/sites-enabled/default"
+              dest: "/etc/nginx/sites-enabled/.default.bak"
+
+        - name: Copy file configuration  
+          copy:
+              src: "../dotfiles/nginx/default"
+              dest: "/etc/nginx/sites-enabled/default"
+              force: yes
+        
+        - name: Restart nginx server
+          service:
+              name: nginx
+              state: restarted
