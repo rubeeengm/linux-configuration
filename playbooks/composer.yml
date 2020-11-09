@@ -1,0 +1,26 @@
+---
+  - name: composer-install
+    hosts: linux
+    become: true
+    
+    vars:
+        home: "{{out.stdout}}"
+
+    tasks:
+        - name: Saving home in variable
+          shell: "echo $HOME"
+          register: out
+          become_method: sudo
+          become_user: "{{account}}"
+         
+        - name: Download composer
+          get_url:
+              url: "https://getcomposer.org/installer"
+              dest: "{{home}}/Downloads/"
+          become_method: sudo
+          become_user: "{{account}}"
+        
+        - name: Run installer
+          shell: php installer --install-dir=/usr/local/bin --filename=composer
+          args:
+              chdir: "{{home}}/Downloads/"

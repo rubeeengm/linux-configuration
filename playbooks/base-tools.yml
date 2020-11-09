@@ -27,6 +27,8 @@
                   - zip
                   - unzip
                   - javacc
+                  - dia
+                  - filezilla
               state: present
 
         - name: Install plugin of mysql for ansible
