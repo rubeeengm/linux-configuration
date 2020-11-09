@@ -19,6 +19,7 @@
                   - php
                   - php-fpm
                   - php-mysql
+                  - php7.4-mbstring
               state: present
 
         - name: backup of nginx configuration

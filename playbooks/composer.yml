@@ -24,3 +24,10 @@
           shell: php installer --install-dir=/usr/local/bin --filename=composer
           args:
               chdir: "{{home}}/Downloads/"
+        
+        - name: Install composer
+          shell: composer global require laravel/installer
+
+        - name: Install composer
+          shell: composer global require laravel/lumen
+
