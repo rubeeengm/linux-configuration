@@ -1,0 +1,30 @@
+---
+  - name: mysql-install
+    hosts: linux
+    become: true
+
+    tasks:
+        - name: Update packages
+          apt: 
+            update_cache: yes
+
+        - name: Intall mysql server
+          apt:
+              name: mysql-server
+              state: present
+
+        - name: Change the authentication plugin of MySQL root user to mysql_native_password
+          shell: mysql -u root -e 'UPDATE mysql.user SET plugin="mysql_native_password" WHERE user="root" AND host="localhost"'
+          become: true
+        
+        - name: Flush privileges
+          shell: mysql -u root -e 'FLUSH PRIVILEGES'
+          become: true
+
+        - name: Create new user
+          community.mysql.mysql_user:
+              name: "{{mysql_user}}"
+              password: "{{mysql_pass}}"
+              priv: '*.*:ALL'
+              state: present
+          become: true

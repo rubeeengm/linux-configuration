@@ -28,3 +28,6 @@
                   - unzip
                   - javacc
               state: present
+
+        - name: Install plugin of mysql for ansible
+          shell: "ansible-galaxy collection install community.mysql" 
