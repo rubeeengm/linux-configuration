@@ -120,5 +120,23 @@ alias tma='tmux attach || { (while ! tmux run-shell
 ~/.tmux/plugins/tmux-resurrect/scripts/restore.sh; do sleep 0.2; done)& tmux ;
 }'
 
+#VARIABLES DE ENTORNO
 COMPOSER=$HOME/.config/composer/vendor/bin
-export PATH=$PATH:$COMPOSER
+JAVA=/opt/jdk1.8.0_241/bin/
+
+export PATH=$PATH:$COMPOSER:$JAVA
+
+#ALIAS PERSONALIZADOS
+alias docker='sudo docker'
+alias php-run='php -S localhost:8080'
+alias php-deploy='php -S localhost:8000 -t public'
+alias php-log='sudo tail -f /var/log/nginx/error.log'
+alias webhome='cd /var/www/html/'
+alias phptest='vendor/phpunit/phpunit/phpunit $1'
+alias ll='ls -l'
+alias lla='ls -la'
+alias docker='sudo docker'
+alias list-session='loginctl list-sessions'
+alias unlock-session='loginctl unlock-session $1'
+alias mycli='mycli -u $1'
+alias pyenv='python3 -m venv venv'
